@@ -75,6 +75,38 @@ class Database:
             return None
 
 
+    async def update_req_status(self, req_id: int):
+        """Изменение статуса заявки с проверкой соблюдения порядка"""
+        try:
+            # Получаем текущий статус заявки
+            current_status = await self.get_status_req(req_id)
+            if not current_status:
+                return "req_not_found"
+
+            async with self.Session() as session:
+
+                current_index_query = select(status_indexing.index).where(status_indexing.status_hash == current_status)
+                current_index_result = await session.execute(current_index_query)
+                current_index = current_index_result.scalar()
+                if current_index >= 3:
+                    if current_index == 52: return "req_cancelled"
+                    if current_index == 3: return "already_delivered"
+                    return "max_status"
+
+                new_status_query = select(status_indexing.status_hash).where(status_indexing.index == current_index+1)
+                new_status_result = await session.execute(new_status_query)
+                new_status = new_status_result.scalar()
+
+
+                update_query = update(requestss).where(requestss.id == req_id).values(status=new_status)
+                await session.execute(update_query)
+                await session.commit()
+                return "updated", new_status
+
+        except Exception as e:
+            print(f"ААЩИБИКА(update_req_status): {e}\n")
+            return None
+
 
 
 database = Database()
