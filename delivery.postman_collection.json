@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "96a24346-6522-4073-865d-d233b13d2bd5",
+		"name": "delivery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34917408"
+	},
+	"item": [
+		{
+			"name": "Отмена заявки по id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/cancel_req/?req_id=4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"cancel_req",
+						""
+					],
+					"query": [
+						{
+							"key": "req_id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение страницы заявки по id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/get_req/?req_id=6",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"get_req",
+						""
+					],
+					"query": [
+						{
+							"key": "req_id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "создание заявочки",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"sender_name\": \"{{$randomFirstName}}\",\r\n    \"sender_phone\": {{$randomInt}},\r\n    \"sender_address\": \"{{$randomStreetAddress}}\",\r\n    \"recipient_name\": \"{{$randomFirstName}}\",\r\n    \"recipient_phone\": {{$randomInt}},\r\n    \"recipient_address\": \"{{$randomStreetAddress}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/create_req",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"create_req"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "изменение статуса заявки по порядку",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/update_next_status/?req_id=5",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"update_next_status",
+						""
+					],
+					"query": [
+						{
+							"key": "req_id",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
